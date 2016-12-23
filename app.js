@@ -9,8 +9,7 @@ app.controller('camCtrl',function($scope, $http,$interval){
     
     $scope.interval = 30;
     $scope.cycleActive = true;
-    $scope.showMap = true;
-    $scope.mapZoom = 6;
+    $scope.mapZoom = 4;
     $scope.rando = function(url){
         $scope.refreshed = Date.now();
         return url + "?rand=" + Date.now();        
@@ -154,9 +153,7 @@ app.controller('camCtrl',function($scope, $http,$interval){
         $scope.focalCam.focus = true;
 
         //do the map
-        if($scope.showMap){
-            $scope.drawMap();
-        }
+        $scope.drawMap();
 
         console.log('done');
     };
