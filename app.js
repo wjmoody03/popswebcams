@@ -133,13 +133,12 @@ app.controller('camCtrl',function($scope, $http,$interval){
         }
     ];
 	
-	
-	
-	
-	
-	
-	
-    
+	angular.forEach($scope.cams,function(itm){
+        itm.randoUrl = $scope.rando(itm.url);
+        if(itm.thumbnail){
+            itm.thumbnail = $scope.rando(itm.thumbnail);
+        }
+    });
     
     $scope.ix = 0;
     $scope.max = $scope.cams.length-1;
@@ -148,9 +147,10 @@ app.controller('camCtrl',function($scope, $http,$interval){
         if($scope.focalCam){
             $scope.focalCam.focus = false;
         }
-        
+    
         $scope.focalCam = newCam;
         $scope.focalCam.focus = true;
+        $scope.randoUrl = $scope.rando(newCam.url);
 
         //do the map
         $scope.drawMap();
