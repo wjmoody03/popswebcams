@@ -7,7 +7,7 @@ var app = angular.module('cams',[]).config(function($sceDelegateProvider) {
 
 app.controller('camCtrl',function($scope, $http,$interval){
     
-    $scope.interval = 30;
+    $scope.interval = 15;
     $scope.cycleActive = true;
     $scope.mapZoom = 4;
     $scope.rando = function(url){
@@ -154,7 +154,7 @@ app.controller('camCtrl',function($scope, $http,$interval){
 
         //do the map
         $scope.drawMap();
-
+        $scope.getWeather(newCam);
         console.log('done');
     };
 
@@ -183,6 +183,7 @@ app.controller('camCtrl',function($scope, $http,$interval){
         $scope.cycleActive = false;
         $scope.setCycle();
         $scope.focus(cam);
+        
     };
 
     $scope.setCycle = function(){
@@ -196,6 +197,22 @@ app.controller('camCtrl',function($scope, $http,$interval){
         else{            
             console.log('canceled cycle');
         }
+    };
+
+    $scope.getWeather=function(cam){
+        var key="a4f7622d65bf2db15eae72acad716b0f";
+        $scope.weatherError = null;
+        $scope.weather = null;
+        $http.get("http://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" + 
+                    cam.location.lat + "&lon=" + cam.location.lng +
+                    "&APPID=" + key)
+            .success(function(result){
+                console.log(result);
+                $scope.weather = result;
+            })
+            .error(function(err){
+                $scope.weatherError = err;
+            });
     };
 
     $scope.focus($scope.cams[$scope.ix]);

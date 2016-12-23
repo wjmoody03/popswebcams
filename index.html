@@ -57,7 +57,7 @@
 </nav>
 
 <div class="container" style="height:90%;" ng-cloak>
-    <div class="col-xs-2" style="max-height:100%;overflow:scroll;">
+    <div class="col-xs-2" style="max-height:100%;overflow-y:scroll;overflow-x:hidden;">
         <div ng-repeat="c in cams">
             <a href="#" ng-click="select(c)" ng-class="{'focus':c.focus}" class="thumbnail" style="height:100px;">
                 <img style="height:80%;width:100%;" src="{{rando(c.type=='img'?c.url:c.thumbnail)}}" alt="{{c.title}}" />
@@ -78,8 +78,14 @@
                 <div id="map" style="height:50%;">
 
                 </div>
-                <div id="weather" style="height:50%;">
-
+                <div id="weather" class="well" style="height:50%;">
+                    {{weatherError}}
+                    <span class="text-muted">Weather Station</span> {{weather.name}} <br/>
+                    <span class="text-muted">Conditions</span> {{weather.weather[0].description}} <br/>
+                    <span class="text-muted">Temp</span> {{weather.main.temp}} <br/>
+                    <span class="text-muted">Daily Min/Max</span> {{weather.main.temp_min}} / {{weather.main.temp_max}} <br/>
+                    <span class="text-muted">Wind</span> {{weather.wind.speed}} <br/>
+                    <span class="text-muted">Humidity</span> {{weather.main.humidity}}% <br/>
                 </div>
             </div
         </div>
