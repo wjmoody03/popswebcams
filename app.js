@@ -1,4 +1,4 @@
-var app = angular.module('cams',[]).config(function($sceDelegateProvider) {
+var app = angular.module('cams',['ui.knob','circle.countdown']).config(function($sceDelegateProvider) {
   $sceDelegateProvider.resourceUrlWhitelist([
     'self',
     'http://streams.seejh.com/**'
@@ -96,7 +96,7 @@ app.controller('camCtrl',function($scope, $http,$interval){
             "location":{lat:37.8529772, lng:-119.831296}
         },
         {
-            "title":"Jacob's Office",
+            "title":"Seattle",
             "url":"http://cdn.tegna-media.com/king/weather/roofcam1nw880x495.jpg",
             "type":"img",
             "location":{lat:47.6147628, lng:-122.475989}
@@ -130,6 +130,48 @@ app.controller('camCtrl',function($scope, $http,$interval){
             "url":"http://images.wsdot.wa.gov/sc/090VC05200.jpg",
             "type":"img",
             "location":{lat:47.41, lng:-121.4080217}
+        },
+        {
+            "title":"Longs Peak",
+            "url":"https://www.nps.gov/webcams-romo/longs_peak.jpg",
+            "type":"img",
+            "location":{lat:40.2548753, lng:-105.6182182}
+        },
+        {
+            "title":"Lake Chelan",
+            "url":"http://webcam.campbellsresort.com/campcam.jpg",
+            "type":"img",
+            "location":{lat:47.840239, lng:-120.0224197}
+        },
+        {
+            "title":"Space Needle",
+            "url":"http://media.cmgdigital.com/shared/lt/lt_cache/thumbnail/607/img/photos/2014/04/21/3a/a3/dVz5oP_seacam2.jpg",
+            "type":"img",
+            "location":{lat:47.6205099, lng:-122.3514661}
+        },
+        {
+            "title":"Glacier Bay",
+            "url":"https://www.nps.gov/webcams-glba/BartlettLagoon.jpg",
+            "type":"img",
+            "location":{lat:58.5773739, lng:-136.6716532}
+        },
+        {
+            "title":"Bryce Canyon",
+            "url":"https://www.nps.gov/webcams-blca/sr2.jpg",
+            "type":"img",
+            "location":{lat:37.5735929, lng:-112.4585202}
+        },
+        {
+            "title":"Denali Meadow",
+            "url":"https://www.nps.gov/webcams-dena/alpine.jpg",
+            "type":"img",
+            "location":{lat:63.0919802, lng:-151.1348142}
+        },
+        {
+            "title":"South Pole",
+            "url":"https://www.usap.gov/videoclipsandmaps/SouthPoleWebcam/darksector00021.jpg?=12901309.4991",
+            "type":"img",
+            "location":{lat:-84.9997583, lng:-0.0021887}
         }
     ];
 	
@@ -155,6 +197,7 @@ app.controller('camCtrl',function($scope, $http,$interval){
         //do the map
         $scope.drawMap();
         $scope.getWeather(newCam);
+        $scope.getTime(newCam);
         console.log('done');
     };
 
@@ -198,6 +241,18 @@ app.controller('camCtrl',function($scope, $http,$interval){
             console.log('canceled cycle');
         }
     };
+
+    $scope.getTime = function(cam){
+        $scope.time = null;
+        $http.get("http://api.geonames.org/timezoneJSON?lat=" + cam.location.lat + "&lng=" + cam.location.lng + "&username=wjmoody03")
+            .success(function(result){
+                $scope.time = result.time;
+                console.log(result);
+            })
+            .error(function(result){
+                $scope.time = "Local Time Unavailable";
+            });
+    }
 
     $scope.getWeather=function(cam){
         var key="a4f7622d65bf2db15eae72acad716b0f";
